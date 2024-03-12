@@ -21,7 +21,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
             # run network
             if torch.cuda.is_available():
                 anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
-                print('after prediction',anchors.shape,classificationn.shape)
+                # print('after prediction',anchors.shape,classificationn.shape)
                 finalResult = [[], [], []]
                 finalScores = torch.Tensor([])
                 finalAnchorBoxesIndexes = torch.Tensor([]).long()
