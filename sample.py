@@ -25,6 +25,12 @@ def main(args=None):
     ort_outs = ort_session.run(None, ort_inputs)
     anchors,classification = ort_outs[0], ort_outs[1]
     print(classification.shape,anchors.shape)
+    data = dataset_val[0]
+    inputs = data['img'].permute(2, 0, 1).float().unsqueeze(dim=0)
+    ort_inputs['input.1'] = inputs.cpu().numpy()
+    ort_outs = ort_session.run(None, ort_inputs)
+    anchors,classification = ort_outs[0], ort_outs[1]
+    print(classification.shape,anchors.shape)
 if __name__ == '__main__':
     main()
  
