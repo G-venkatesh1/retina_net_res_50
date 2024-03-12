@@ -20,13 +20,13 @@ def evaluate_coco(dataset, model, threshold=0.05):
             c=c+1
             # run network
             if torch.cuda.is_available():
-                scores, labels, boxes = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
-                print('after prediction',scores.shape,labels.shape,boxes.shape)
+                anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
+                print('after prediction',anchors.shape,classificationn.shape)
             else:
                 scores, labels, boxes = model(data['img'].permute(2, 0, 1).float().unsqueeze(dim=0))
-            scores = scores.cpu()
-            labels = labels.cpu()
-            boxes  = boxes.cpu()
+            # scores = scores.cpu()
+            # labels = labels.cpu()
+            # boxes  = boxes.cpu()
 
             # correct boxes for image scale
         #     boxes /= scale
