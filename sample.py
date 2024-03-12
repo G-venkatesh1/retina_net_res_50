@@ -13,4 +13,8 @@ def main(args=None):
     example_input = torch.randn(1, 3,640,640).cuda()
     onnx_path = '/kaggle/working/fp32_updated.onnx'
     torch.onnx.export(retinanet,example_input,onnx_path,opset_version=15)
-    print('export completed') 
+    print('export completed')
+
+if __name__ == '__main__':
+    main()
+ 
