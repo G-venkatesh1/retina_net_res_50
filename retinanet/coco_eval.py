@@ -5,8 +5,8 @@ from torchvision.ops import nms
 
 def evaluate_coco(dataset, model, threshold=0.05):
     
-    model.eval()
-    
+    # model.eval()
+    ort_inputs = {'input.1': None}
     with torch.no_grad():
         c=0
         # start collecting results
@@ -16,11 +16,15 @@ def evaluate_coco(dataset, model, threshold=0.05):
         for index in range(len(dataset)):
             data = dataset[index]
             scale = data['scale']
-            if(c>20):break
+            if(c>5):break
             c=c+1
             # run network
             if torch.cuda.is_available():
-                anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
+                # anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
+                inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
+                ort_inputs['input.1'] = inputs.cpu().numpy()
+                ort_outs = model.run(None, ort_inputs)
+                anchors,classificationn = ort_outs[0], ort_outs[1]
                 # print('after prediction',anchors.shape,classificationn.shape)
                 finalResult = [[], [], []]
                 finalScores = torch.Tensor([])

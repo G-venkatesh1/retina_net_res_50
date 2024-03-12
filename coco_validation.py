@@ -1,7 +1,7 @@
 import argparse
 import torch
 from torchvision import transforms
-
+import onnxruntime
 from retinanet import model
 from retinanet.dataloader import CocoDataset, Resizer, Normalizer,Resizer_const
 from retinanet import coco_eval
@@ -41,9 +41,9 @@ def main(args=None):
     retinanet.training = False
     retinanet.eval()
     retinanet.module.freeze_bn()
-
-    coco_eval.evaluate_coco(dataset_val, retinanet)
-
+    ort_session = onnxruntime.InferenceSession('/kaggle/working/fp32_updated.onnx')
+    coco_eval.evaluate_coco(dataset_val,ort_session)
+ 
 
 if __name__ == '__main__':
     main()
