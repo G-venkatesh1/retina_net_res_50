@@ -16,7 +16,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
         for index in range(len(dataset)):
             data = dataset[index]
             scale = data['scale']
-            # if(c>5):break
+            # if(c>5):break0
             # c=c+1
             # run network
             if torch.cuda.is_available():
@@ -25,28 +25,28 @@ def evaluate_coco(dataset, model, threshold=0.05):
                 ort_inputs['input.1'] = inputs.cpu().numpy()
                 ort_outs = model.run(None, ort_inputs)
                 anchors,classificationn = ort_outs[0], ort_outs[1]
-                classificationn = torch.tensor(classificationn)
-                anchors = torch.tensor(anchors)
+                classificationn = torch.tensor(classificationn).cuda()
+                anchors = torch.tensor(anchors).cuda()
                 # print('after prediction',anchors.shape,classificationn.shape)
                 finalResult = [[], [], []]
                 finalScores = torch.Tensor([])
                 finalAnchorBoxesIndexes = torch.Tensor([]).long()
                 finalAnchorBoxesCoordinates = torch.Tensor([])
-                # if torch.cuda.is_available(): 
-                #     finalScores = finalScores.cuda()
-                #     finalAnchorBoxesIndexes = finalAnchorBoxesIndexes.cuda()
-                #     finalAnchorBoxesCoordinates = finalAnchorBoxesCoordinates.cuda()
+                if torch.cuda.is_available(): 
+                    finalScores = finalScores.cuda()
+                    finalAnchorBoxesIndexes = finalAnchorBoxesIndexes.cuda()
+                    finalAnchorBoxesCoordinates = finalAnchorBoxesCoordinates.cuda()
                 for i in range(classificationn.shape[2]):
-                    scores = torch.squeeze(classificationn[:, :, i])
+                    scores = torch.squeeze(classificationn[:, :, i]).cuda()
                     scores_over_thresh = (scores > 0.05)
                     if scores_over_thresh.sum() == 0:
                     # no boxes to NMS, just continue
                         continue
 
-                    scores = scores[scores_over_thresh]
-                    anchorBoxes = torch.squeeze(anchors)
-                    anchorBoxes = anchorBoxes[scores_over_thresh]
-                    anchors_nms_idx = nms(anchorBoxes, scores, 0.5)
+                    scores = scores[scores_over_thresh].cuda()
+                    anchorBoxes = torch.squeeze(anchors).cuda()
+                    anchorBoxes = anchorBoxes[scores_over_thresh].cuda()
+                    anchors_nms_idx = nms(anchorBoxes, scores, 0.5).cuda()
 
                     finalResult[0].extend(scores[anchors_nms_idx])
                     finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0]))
