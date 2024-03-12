@@ -1,7 +1,7 @@
 from pycocotools.cocoeval import COCOeval
 import json
 import torch
-
+from torchvision.ops import nms
 
 def evaluate_coco(dataset, model, threshold=0.05):
     
@@ -22,6 +22,38 @@ def evaluate_coco(dataset, model, threshold=0.05):
             if torch.cuda.is_available():
                 anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
                 print('after prediction',anchors.shape,classificationn.shape)
+                finalResult = [[], [], []]
+                finalScores = torch.Tensor([])
+                finalAnchorBoxesIndexes = torch.Tensor([]).long()
+                finalAnchorBoxesCoordinates = torch.Tensor([])
+                if torch.cuda.is_available(): 
+                    finalScores = finalScores.cuda()
+                    finalAnchorBoxesIndexes = finalAnchorBoxesIndexes.cuda()
+                    finalAnchorBoxesCoordinates = finalAnchorBoxesCoordinates.cuda()
+                for i in range(classificationn.shape[2]):
+                    scores = torch.squeeze(classificationn[:, :, i])
+                    scores_over_thresh = (scores > 0.05)
+                    if scores_over_thresh.sum() == 0:
+                    # no boxes to NMS, just continue
+                        continue
+
+                    scores = scores[scores_over_thresh]
+                    anchorBoxes = torch.squeeze(anchors)
+                    anchorBoxes = anchorBoxes[scores_over_thresh]
+                    anchors_nms_idx = nms(anchorBoxes, scores, 0.5)
+
+                    finalResult[0].extend(scores[anchors_nms_idx])
+                    finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0]))
+                    finalResult[2].extend(anchorBoxes[anchors_nms_idx])
+
+                    finalScores = torch.cat((finalScores, scores[anchors_nms_idx]))
+                    finalAnchorBoxesIndexesValue = torch.tensor([i] * anchors_nms_idx.shape[0])
+                    if torch.cuda.is_available():
+                        finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue.cuda()
+
+                    finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue))
+                    finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx]))
+                    print('in eval',finalScores.shape, finalAnchorBoxesIndexes.shape, finalAnchorBoxesCoordinates.shape)
             else:
                 scores, labels, boxes = model(data['img'].permute(2, 0, 1).float().unsqueeze(dim=0))
             # scores = scores.cpu()

@@ -260,41 +260,41 @@ class ResNet(nn.Module):
             transformed_anchors = self.clipBoxes(transformed_anchors, img_batch)
             print('in model',transformed_anchors.shape,classification.shape)
             return [transformed_anchors,classification]
-            finalResult = [[], [], []]
-            finalScores = torch.Tensor([])
-            finalAnchorBoxesIndexes = torch.Tensor([]).long()
-            finalAnchorBoxesCoordinates = torch.Tensor([])
+            # finalResult = [[], [], []]
+            # finalScores = torch.Tensor([])
+            # finalAnchorBoxesIndexes = torch.Tensor([]).long()
+            # finalAnchorBoxesCoordinates = torch.Tensor([])
 
-            if torch.cuda.is_available():
-                finalScores = finalScores.cuda()
-                finalAnchorBoxesIndexes = finalAnchorBoxesIndexes.cuda()
-                finalAnchorBoxesCoordinates = finalAnchorBoxesCoordinates.cuda()
+            # if torch.cuda.is_available():
+            #     finalScores = finalScores.cuda()
+            #     finalAnchorBoxesIndexes = finalAnchorBoxesIndexes.cuda()
+            #     finalAnchorBoxesCoordinates = finalAnchorBoxesCoordinates.cuda()
 
-            for i in range(classification.shape[2]):
-                scores = torch.squeeze(classification[:, :, i])
-                scores_over_thresh = (scores > 0.05)
-                if scores_over_thresh.sum() == 0:
-                    # no boxes to NMS, just continue
-                    continue
+            # for i in range(classification.shape[2]):
+            #     scores = torch.squeeze(classification[:, :, i])
+            #     scores_over_thresh = (scores > 0.05)
+            #     if scores_over_thresh.sum() == 0:
+            #         # no boxes to NMS, just continue
+            #         continue
 
-                scores = scores[scores_over_thresh]
-                anchorBoxes = torch.squeeze(transformed_anchors)
-                anchorBoxes = anchorBoxes[scores_over_thresh]
-                anchors_nms_idx = nms(anchorBoxes, scores, 0.5)
+            #     scores = scores[scores_over_thresh]
+            #     anchorBoxes = torch.squeeze(transformed_anchors)
+            #     anchorBoxes = anchorBoxes[scores_over_thresh]
+            #     anchors_nms_idx = nms(anchorBoxes, scores, 0.5)
 
-                finalResult[0].extend(scores[anchors_nms_idx])
-                finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0]))
-                finalResult[2].extend(anchorBoxes[anchors_nms_idx])
+            #     finalResult[0].extend(scores[anchors_nms_idx])
+            #     finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0]))
+            #     finalResult[2].extend(anchorBoxes[anchors_nms_idx])
 
-                finalScores = torch.cat((finalScores, scores[anchors_nms_idx]))
-                finalAnchorBoxesIndexesValue = torch.tensor([i] * anchors_nms_idx.shape[0])
-                if torch.cuda.is_available():
-                    finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue.cuda()
+            #     finalScores = torch.cat((finalScores, scores[anchors_nms_idx]))
+            #     finalAnchorBoxesIndexesValue = torch.tensor([i] * anchors_nms_idx.shape[0])
+            #     if torch.cuda.is_available():
+            #         finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue.cuda()
 
-                finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue))
-                finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx]))
-                # print('in model',finalScores.shape, finalAnchorBoxesIndexes.shape, finalAnchorBoxesCoordinates.shape)
-            return [finalScores, finalAnchorBoxesIndexes, finalAnchorBoxesCoordinates]
+            #     finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue))
+            #     finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx]))
+            #     # print('in model',finalScores.shape, finalAnchorBoxesIndexes.shape, finalAnchorBoxesCoordinates.shape)
+            # return [finalScores, finalAnchorBoxesIndexes, finalAnchorBoxesCoordinates]
 
 
 
