@@ -20,7 +20,7 @@ def main(args=None):
     parser = parser.parse_args(args)
 
     dataset_val = CocoDataset(parser.coco_path, set_name='val2017',
-                              transform=transforms.Compose([Normalizer(), Resizer()]))
+                              transform=transforms.Compose([Normalizer(), Resizer_const()]))
 
     # Create the model
     retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)
