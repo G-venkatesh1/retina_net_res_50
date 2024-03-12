@@ -41,7 +41,7 @@ def main(args=None):
     retinanet.training = False
     retinanet.eval()
     retinanet.module.freeze_bn()
-    ort_session = onnxruntime.InferenceSession('/kaggle/working/fp32_updated.onnx')
+    ort_session = onnxruntime.InferenceSession('/kaggle/input/fp_32_retina_net_onnx/onnx/model/1/fp32_updated.onnx')
     coco_eval.evaluate_coco(dataset_val,ort_session)
  
 
