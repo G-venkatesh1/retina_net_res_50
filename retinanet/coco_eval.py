@@ -25,6 +25,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
                 ort_inputs['input.1'] = inputs.cpu().numpy()
                 ort_outs = model.run(None, ort_inputs)
                 anchors,classificationn = ort_outs[0], ort_outs[1]
+                classificationn = torch.tensor(classificationn)
                 # print('after prediction',anchors.shape,classificationn.shape)
                 finalResult = [[], [], []]
                 finalScores = torch.Tensor([])
