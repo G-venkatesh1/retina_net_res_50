@@ -54,8 +54,8 @@ def evaluate_coco(dataset, model, threshold=0.05):
                     # scores[anchors_nms_idx] = scores[anchors_nms_idx].cuda()
                     finalScores = torch.cat((finalScores, scores[anchors_nms_idx]))
                     finalAnchorBoxesIndexesValue = torch.tensor([i] * anchors_nms_idx.shape[0])
-                    # if torch.cuda.is_available():
-                        # finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue.cuda()
+                    if torch.cuda.is_available():
+                        finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue.cuda()
 
                     finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue))
                     finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx]))
