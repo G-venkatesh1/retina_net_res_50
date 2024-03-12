@@ -21,7 +21,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
             # run network
             if torch.cuda.is_available():
                 scores, labels, boxes = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
-                print(scores.shape,labels.shape,boxes.shape)
+                print('after prediction',scores.shape,labels.shape,boxes.shape)
             else:
                 scores, labels, boxes = model(data['img'].permute(2, 0, 1).float().unsqueeze(dim=0))
             scores = scores.cpu()
