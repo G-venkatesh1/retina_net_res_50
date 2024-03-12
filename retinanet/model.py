@@ -260,7 +260,6 @@ class ResNet(nn.Module):
             transformed_anchors = self.clipBoxes(transformed_anchors, img_batch)
 
             finalResult = [[], [], []]
-
             finalScores = torch.Tensor([])
             finalAnchorBoxesIndexes = torch.Tensor([]).long()
             finalAnchorBoxesCoordinates = torch.Tensor([])
@@ -293,7 +292,7 @@ class ResNet(nn.Module):
 
                 finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue))
                 finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx]))
-
+                print(finalScores.shape, finalAnchorBoxesIndexes.shape, finalAnchorBoxesCoordinates.shape)
             return [finalScores, finalAnchorBoxesIndexes, finalAnchorBoxesCoordinates]
 
 
