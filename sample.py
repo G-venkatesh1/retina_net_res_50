@@ -11,6 +11,6 @@ def main(args=None):
     retinanet.load_state_dict(torch.load(model_path))
     retinanet.eval()
     example_input = torch.randn(1, 3,640,640).cuda()
-    onnx_path = "fp32_updated.onnx"
+    onnx_path = "/kaggle/working/fp32_updated.onnx"
     torch.onnx.export(retinanet,example_input,onnx_path,opset_version=15)
     print('export completed') 
