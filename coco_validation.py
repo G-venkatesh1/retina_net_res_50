@@ -3,7 +3,7 @@ import torch
 from torchvision import transforms
 
 from retinanet import model
-from retinanet.dataloader import CocoDataset, Resizer, Normalizer
+from retinanet.dataloader import CocoDataset, Resizer, Normalizer,Resizer_const
 from retinanet import coco_eval
 
 # assert torch.__version__.split('.')[0] == '1'
@@ -20,7 +20,7 @@ def main(args=None):
     parser = parser.parse_args(args)
 
     dataset_val = CocoDataset(parser.coco_path, set_name='val2017',
-                              transform=transforms.Compose([Normalizer(), Resizer()]))
+                              transform=transforms.Compose([Normalizer(), Resizer_const()]))
 
     # Create the model
     retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)

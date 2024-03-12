@@ -370,6 +370,26 @@ class Resizer(object):
 
         return {'img': torch.from_numpy(new_image), 'annot': torch.from_numpy(annots), 'scale': scale}
 
+class Resizer_const(object):
+    #cosnt
+    def __call__(self, sample,target_size=640):
+        image, annots = sample['img'], sample['annot']
+
+        rows, cols, cns = image.shape
+        xscale = target_size / cols
+        yscale = target_size / rows
+        pad_rows = target_size - image.shape[0]
+        pad_cols = target_size - image.shape[1]
+        # padded_image = np.pad(image_resized, ((0, pad_rows), (0, pad_cols), (0, 0)), mode='constant', constant_values=0)
+        new_image = np.zeros((rows + pad_rows, cols + pad_cols, cns)).astype(np.float32)
+        new_image[:rows, :cols, :] = image.astype(np.float32)
+        annots[:, 0] *= xscale  # xmin
+        annots[:, 1] *= yscale  # ymin
+        annots[:, 2] *= xscale  # xmax
+        annots[:, 3] *= yscale  # ymax
+        # print('afer predictin',xscale,yscale)
+        scale =1.0
+        return {'img': torch.from_numpy(new_image), 'annot': torch.from_numpy(annots), 'scale': scale}
 
 class Augmenter(object):
     """Convert ndarrays in sample to Tensors."""
