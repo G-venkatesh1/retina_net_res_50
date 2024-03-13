@@ -62,9 +62,9 @@ def evaluate_coco(dataset, model, threshold=0.05):
                     # print('in eval',finalScores.shape, finalAnchorBoxesIndexes.shape, finalAnchorBoxesCoordinates.shape)
             else:
                 print("enable gpu")
-            finalScores = finalScores.cpu()
-            finalAnchorBoxesIndexes = finalAnchorBoxesIndexes.cpu()
-            finalAnchorBoxesCoordinates = finalAnchorBoxesCoordinates.cpu()
+            # finalScores = finalScores.cpu()
+            # finalAnchorBoxesIndexes = finalAnchorBoxesIndexes.cpu()
+            # finalAnchorBoxesCoordinates = finalAnchorBoxesCoordinates.cpu()
             finalAnchorBoxesCoordinates /= scale
 
             if finalAnchorBoxesCoordinates.shape[0] > 0:
