@@ -43,7 +43,7 @@ def main(args=None):
     # onnx_32_model = onnx.load(onnx_fp_32_path)
     # onnx_16_model = float16.convert_float_to_float16(onnx_32_model,min_positive_val=1e-7,max_finite_val=1e4)
     # onnx.save(onnx_16_model,onnx_fp_16_path)
-    int8_onnx_path ='/kaggle/working'
+    int8_onnx_path ='/kaggle/working/int_8.onnx'
     ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, int8_onnx_path)
     module = quantise.OnnxStaticQuantization()
     module.fp32_onnx_path = onnx_fp_32_path
