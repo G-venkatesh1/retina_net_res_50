@@ -40,6 +40,7 @@ class OnnxStaticQuantization:
                 model_input=fp32_onnx_path,
                 model_output=future_int8_onnx_path,
                 calibrate_method=self.calibration_technique[calib_method],
-                calibration_data_reader=self,
+                per_channel=True, reduce_range=True,
+                calibration_data_reader=self
             )
         return self
