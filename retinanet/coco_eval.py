@@ -61,7 +61,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
 
                     finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue))
                     finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx]))
-                    print('in eval',finalScores.shape, finalAnchorBoxesIndexes.shape, finalAnchorBoxesCoordinates.shape)
+                    # print('in eval',finalScores.shape, finalAnchorBoxesIndexes.shape, finalAnchorBoxesCoordinates.shape)
             else:
                 print("enable gpu")
             # finalScores = finalScores.cpu()
