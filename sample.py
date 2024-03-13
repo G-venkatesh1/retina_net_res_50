@@ -39,15 +39,15 @@ def main(args=None):
     # onnx.save(onnx_16_model,onnx_fp_16_path)
     int8_onnx_path ='kaggle/working/int8_ret_pre_proces.onnx'
     ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, int8_onnx_path)
-    module = quantise.OnnxStaticQuantization()
-    module.fp32_onnx_path = onnx_fp_32_path
-    module.quantization(
-        fp32_onnx_path=onnx_fp_32_path,
-        future_int8_onnx_path=int8_onnx_path,
-        calib_method="Percentile",
-        calibration_loader=dataset_val,
-        sample=100
-    )
+    # module = quantise.OnnxStaticQuantization()
+    # module.fp32_onnx_path = onnx_fp_32_path
+    # module.quantization(
+    #     fp32_onnx_path=onnx_fp_32_path,
+    #     future_int8_onnx_path=int8_onnx_path,
+    #     calib_method="Percentile",
+    #     calibration_loader=dataset_val,
+    #     sample=100
+    # )
     
     
     
