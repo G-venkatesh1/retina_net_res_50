@@ -21,10 +21,10 @@ def main(args=None):
     dataset_val = CocoDataset('/kaggle/input/coco-2017-dataset/coco2017', set_name='val2017',
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
     co=0
-    for a,b,c in dataset_val:
-        print(a,b,c)
+    for val in dataset_val:
+        print(dataset_val[val]['img'],dataset_val[val]['annot'])
         co=co+1
-        if(co>1):break
+        if(co>0):break
     # data = dataset_val[0]
     # inputs = data['img'].permute(2, 0, 1).float().unsqueeze(dim=0)
     # ort_inputs['input.1'] = inputs.cpu().numpy()
