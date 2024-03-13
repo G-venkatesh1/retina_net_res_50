@@ -21,7 +21,7 @@ def main(args=None):
     dataset_val = CocoDataset('/kaggle/input/coco-2017-dataset/coco2017', set_name='val2017',
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
     co=0
-    for val in dataset_val:
+    for val in range(len(dataset_val)):
         d = dataset_val[val]
         print(d['img'],d['annot'])
         co=co+1
