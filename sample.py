@@ -37,17 +37,17 @@ def main(args=None):
     # onnx_32_model = onnx.load(onnx_fp_32_path)
     # onnx_16_model = float16.convert_float_to_float16(onnx_32_model,min_positive_val=1e-7,max_finite_val=1e4)
     # onnx.save(onnx_16_model,onnx_fp_16_path)
-    int8_onnx_path ='fp_32_preprocess.onnx'
-    ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, int8_onnx_path)
-    # module = quantise.OnnxStaticQuantization()
-    # module.fp32_onnx_path = onnx_fp_32_path
-    # module.quantization(
-    #     fp32_onnx_path=onnx_fp_32_path,
-    #     future_int8_onnx_path=int8_onnx_path,
-    #     calib_method="Percentile",
-    #     calibration_loader=dataset_val,
-    #     sample=100
-    # )
+    int8_onnx_path ='/kaggle/input/fp_32_pre_process_onnx/onnx/retina_net/1/fp_32_preprocess.onnx'
+    # ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, int8_onnx_path)
+    module = quantise.OnnxStaticQuantization()
+    module.fp32_onnx_path = onnx_fp_32_path
+    module.quantization(
+        fp32_onnx_path=onnx_fp_32_path,
+        future_int8_onnx_path=int8_onnx_path,
+        calib_method="Percentile",
+        calibration_loader=dataset_val,
+        sample=100
+    )
     
     
     
