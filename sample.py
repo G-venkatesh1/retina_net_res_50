@@ -51,9 +51,9 @@ def main(args=None):
     module.quantization(
         fp32_onnx_path=pre_processed_path,
         future_int8_onnx_path=int8_onnx_path,
-        calib_method="Percentile",
+        calib_method="MinMax",
         calibration_loader=dataset_val,
-        sample=25
+        sample=100
     )
     
     
