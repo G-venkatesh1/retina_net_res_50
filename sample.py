@@ -20,7 +20,7 @@ def main(args=None):
     # ort_inputs = {'input.1': None}
     dataset_val = CocoDataset('/kaggle/input/coco-2017-dataset/coco2017', set_name='val2017',
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
-    print(dataset_val) 
+    print(dataset_val.shape) 
     # data = dataset_val[0]
     # inputs = data['img'].permute(2, 0, 1).float().unsqueeze(dim=0)
     # ort_inputs['input.1'] = inputs.cpu().numpy()
