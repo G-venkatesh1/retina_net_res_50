@@ -22,7 +22,9 @@ def main(args=None):
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
     c=0
     for a,b,c in dataset_val:
-        print(a,b,c)
+        print(a)
+        print(b)
+        print(c)
         c=c+1
         if(c>1):break
     # data = dataset_val[0]
