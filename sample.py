@@ -22,9 +22,9 @@ def main(args=None):
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
     c=0
     for a,b,c in dataset_val:
-        print(a.shape,b.shape,c.shape)
+        print(a,b,c)
         c=c+1
-        if(c>5):break
+        if(c>1):break
     # data = dataset_val[0]
     # inputs = data['img'].permute(2, 0, 1).float().unsqueeze(dim=0)
     # ort_inputs['input.1'] = inputs.cpu().numpy()
