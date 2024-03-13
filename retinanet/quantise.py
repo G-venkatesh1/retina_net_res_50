@@ -24,6 +24,7 @@ class OnnxStaticQuantization:
             count = 0
             for nhwc_data in range(len(self.calibration_loader)):
                 image = self.calibration_loader[nhwc_data]
+                print(image['img'].shape)
                 calib_list.append({input_name: image['img'].numpy()}) 
                 if self.sample == count: break
                 count = count + 1
