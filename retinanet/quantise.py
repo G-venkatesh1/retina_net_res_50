@@ -1,10 +1,12 @@
 
 
-from onnxruntime.quantization.calibrate import CalibrationMethod
-from onnxruntime.quantization.quantize import quantize_static
 import onnxruntime as ort
 # from utils import timetaken
-
+from onnxruntime.quantization.calibrate import (CalibrationDataReader,
+                                                CalibrationMethod)
+from onnxruntime.quantization.quantize import quantize_static, quantize_dynamic
+from onnxruntime.quantization.preprocess import quant_pre_process
+from onnxruntime.quantization.quant_utils import QuantType,QuantFormat
 
 class OnnxStaticQuantization:
     def __init__(self) -> None:
@@ -41,6 +43,9 @@ class OnnxStaticQuantization:
                 model_input=fp32_onnx_path,
                 model_output=future_int8_onnx_path,
                 calibrate_method=self.calibration_technique[calib_method],
+                quant_format=QuantFormat.QDQ,
+                weight_type=QuantType.QInt16,
+                activation_type=QuantType.QInt16,
                 per_channel=True, reduce_range=True,
                 calibration_data_reader=self
             )
