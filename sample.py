@@ -22,7 +22,8 @@ def main(args=None):
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
     co=0
     for val in dataset_val:
-        print(dataset_val[val]['img'],dataset_val[val]['annot'])
+        d = dataset_val[val]
+        print(d['img'],d['annot'])
         co=co+1
         if(co>0):break
     # data = dataset_val[0]
