@@ -16,14 +16,14 @@ def evaluate_coco(dataset, model, threshold=0.05):
         for index in range(len(dataset)):
             data = dataset[index]
             scale = data['scale']
-            if(c>100):break
+            if(c>10):break
             c=c+1
             # run network
             if torch.cuda.is_available():
                 # anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
                 inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
+                print(inputs.dtype,inputs)
                 ort_inputs['input.1'] = inputs.cpu().numpy()
-                print(ort_inputs.dtype)
                 # ort_outs = model.run(None, ort_inputs)
                 # anchors,classificationn = ort_outs[0], ort_outs[1]
                 # classificationn = torch.tensor(classificationn).cuda()
