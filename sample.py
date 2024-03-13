@@ -38,7 +38,7 @@ def main(args=None):
     # ort_outs = ort_session.run(None, ort_inputs)
     # anchors,classification = ort_outs[0], ort_outs[1]
     # print(classification.shape,anchors.shape)
-    onnx_fp_32_path ='/kaggle/working/retina_net_res_50/fp_32_preprocess.onnx'
+    onnx_fp_32_path ='/kaggle/input/fp_32_pre_process_onnx/onnx/retina_net/1/fp_32_preprocess.onnx'
     # onnx_fp_16_path = '/kaggle/working/onnx_fp_16.onnx'
     # onnx_32_model = onnx.load(onnx_fp_32_path)
     # onnx_16_model = float16.convert_float_to_float16(onnx_32_model,min_positive_val=1e-7,max_finite_val=1e4)
