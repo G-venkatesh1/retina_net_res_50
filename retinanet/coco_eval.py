@@ -16,8 +16,8 @@ def evaluate_coco(dataset, model, threshold=0.05):
         for index in range(len(dataset)):
             data = dataset[index]
             scale = data['scale']
-            # if(c>5):break0
-            # c=c+1
+            if(c>100):break
+            c=c+1
             # run network
             if torch.cuda.is_available():
                 # anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
