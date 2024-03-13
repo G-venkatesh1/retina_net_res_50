@@ -22,7 +22,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
             if torch.cuda.is_available():
                 # anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
                 inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
-                inputs = inputs.half()
+                # inputs = inputs.half()
                 # print(inputs.dtype)
                 ort_inputs['input.1'] = inputs.cpu().numpy()
                 ort_outs = model.run(None, ort_inputs)
