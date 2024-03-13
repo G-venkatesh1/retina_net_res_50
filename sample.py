@@ -52,7 +52,7 @@ def main(args=None):
         future_int8_onnx_path=int8_onnx_path,
         calib_method="Percentile",
         calibration_loader=dataset_val,
-        sample=100
+        sample=10
     )
     
     
