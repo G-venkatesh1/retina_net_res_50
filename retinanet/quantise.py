@@ -28,7 +28,6 @@ class OnnxStaticQuantization:
                 if self.sample == count: break
                 count = count + 1
             self.enum_data = iter(calib_list)
-        print(calib_list)
         return next(self.enum_data, None)
     
     # @timetaken
