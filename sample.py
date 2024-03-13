@@ -33,7 +33,7 @@ def main(args=None):
     # anchors,classification = ort_outs[0], ort_outs[1]
     # print(classification.shape,anchors.shape)
     onnx_fp_32_path ='/kaggle/input/fp_32_retina_net_onnx/onnx/model/1/fp32_updated.onnx'
-    onnx_fp_16_path = '/kaggle/working'
+    onnx_fp_16_path = '/kaggle/working/onnx_fp_16.onnx'
     onnx_32_model = onnx.load(onnx_fp_32_path)
     onnx_16_model = float16.convert_float_to_float16(onnx_32_model,min_positive_val=1e-7,max_finite_val=1e4)
     onnx.save(onnx_16_model,onnx_fp_16_path)
