@@ -10,10 +10,10 @@ class OnnxStaticQuantization:
     def __init__(self) -> None:
         self.enum_data = None
         self.calibration_technique = {
-            "MinMax": CalibrationMethod.MinMax,
-            "Entropy": CalibrationMethod.Entropy,
-            "Percentile": CalibrationMethod.Percentile,
-            "Distribution": CalibrationMethod.Distribution
+            "MinMax": ort.quantization.calibrate.CalibrationMethod.MinMax,
+            "Entropy": ort.quantization.calibrate.CalibrationMethod.Entropy,
+            "Percentile": ort.quantization.calibrate.CalibrationMethod.Percentile,
+            "Distribution": ort.quantization.calibrate.CalibrationMethod.Distribution
         }
 
     def get_next(self, EP_list = ['CPUExecutionProvider']):
@@ -22,8 +22,9 @@ class OnnxStaticQuantization:
             input_name = session.get_inputs()[0].name
             calib_list = []
             count = 0
-            for nhwc_data, _ in self.calibration_loader:
-                calib_list.append({input_name: nhwc_data.numpy()}) 
+            for nhwc_data in range(len(self.calibration_loader)):
+                image = self.calibration_loader[nhwc_data]
+                calib_list.append({input_name: image['img'].numpy()}) 
                 if self.sample == count: break
                 count = count + 1
             self.enum_data = iter(calib_list)
