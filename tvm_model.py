@@ -24,6 +24,6 @@ dataset_val = CocoDataset('/kaggle/input/coco-2017-dataset/coco2017', set_name='
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
 x = dataset_val[0]['img'].numpy()
 input_data = tvm.nd.array(x.astype("float32")) 
-output = executor(input_data).numpy()
-print(output.shape)
+output = executor(input_data)
+print(output)
     
