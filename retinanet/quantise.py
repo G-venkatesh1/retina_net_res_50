@@ -44,8 +44,8 @@ class OnnxStaticQuantization:
                 model_output=future_int8_onnx_path,
                 calibrate_method=self.calibration_technique[calib_method],
                 quant_format=QuantFormat.QDQ,
-                weight_type=QuantType.QInt16,
-                activation_type=QuantType.QInt16,
+                weight_type=QuantType.QInt8,
+                activation_type=QuantType.QInt8,
                 per_channel=True, reduce_range=True,
                 calibration_data_reader=self
             )
