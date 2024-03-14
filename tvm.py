@@ -10,7 +10,7 @@ from retinanet.dataloader import CocoDataset, Resizer, Normalizer,Resizer_const
 from retinanet import coco_eval
 from tqdm import tqdm
 # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-onnx_model_path = '/kaggle/working/400_int_8_mm_w8a8.onnx'
+onnx_model_path = '/kaggle/input/int_8_onnx_model/onnx/retina_net/1/400_int_8_mm_w8a8.onnx'
 onnx_model = onnx.load(onnx_model_path)
 input_shape = (1,3,640,640)
 input_name = "input.1"
