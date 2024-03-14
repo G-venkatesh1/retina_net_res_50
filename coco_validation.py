@@ -2,6 +2,7 @@ import argparse
 import torch
 from torchvision import transforms
 import onnxruntime
+import onnx
 from retinanet import model
 from retinanet.dataloader import CocoDataset, Resizer, Normalizer,Resizer_const
 from retinanet import coco_eval
