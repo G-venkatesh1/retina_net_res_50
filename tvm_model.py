@@ -29,6 +29,7 @@ dataset_val = CocoDataset('/kaggle/input/coco-2017-dataset/coco2017', set_name='
 threshold=0.05
 results = []
 image_ids = []
+c=0
 for index in range(len(dataset_val)):
             data = dataset_val[index]
             scale = data['scale']
