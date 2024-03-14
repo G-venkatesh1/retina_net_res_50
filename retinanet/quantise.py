@@ -29,6 +29,9 @@ class OnnxStaticQuantization:
                 # print(image['img'].shape)
                 calib_list.append({input_name: image['img'].unsqueeze(0).permute(0,3,2,1).numpy()}) 
                 if self.sample == count: break
+                if count == 100: print("100 reached")
+                if count == 200: print('200 reached')
+                if count == 300: print("300 reached")
                 count = count + 1
             self.enum_data = iter(calib_list)
         return next(self.enum_data, None)

@@ -53,7 +53,7 @@ def main(args=None):
         future_int8_onnx_path=int8_onnx_path,
         calib_method="MinMax",
         calibration_loader=dataset_val,
-        sample=1000
+        sample=300
     )
     
     
