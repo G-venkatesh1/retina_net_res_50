@@ -43,9 +43,9 @@ class OnnxStaticQuantization:
                 model_input=fp32_onnx_path,
                 model_output=future_int8_onnx_path,
                 calibrate_method=self.calibration_technique[calib_method],
-                # quant_format=QuantFormat.QDQ,
-                # weight_type=QuantType.QInt16,
-                # activation_type=QuantType.QInt16,
+                quant_format=QuantFormat.QDQ,
+                weight_type=QuantType.QInt16,
+                activation_type=QuantType.QInt16,
                 per_channel=True, reduce_range=True,
                 calibration_data_reader=self
             )
