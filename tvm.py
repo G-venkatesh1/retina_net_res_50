@@ -1,7 +1,7 @@
 import torch
 import tvm
 import numpy as np
-# from tvm import relay
+from tvm import relay
 from torchvision import transforms
 import onnx
 import time
