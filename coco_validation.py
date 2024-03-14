@@ -41,8 +41,17 @@ def main(args=None):
     retinanet.training = False
     retinanet.eval()
     retinanet.module.freeze_bn()
-    ort_session = onnxruntime.InferenceSession('/kaggle/working/400_int_8_mm_w8a8.onnx')
-    coco_eval.evaluate_coco(dataset_val,ort_session)
+    # ort_session = onnxruntime.InferenceSession('/kaggle/working/400_int_8_mm_w8a8.onnx')
+    onnx_model_path = '/kaggle/input/int_8_onnx_model/onnx/retina_net/1/400_int_8_mm_w8a8.onnx'
+    onnx_model = onnx.load(onnx_model_path)
+    input_shape = (1,3,640,640)
+    input_name = "input.1"
+    shape_dict ={input_name:input_shape}
+    mod,params = relay.frontend.from_onnx(onnx_model,shape_dict)
+    target = "llvm"
+    with tvm.transform.PassContext(opt_level=3):
+        executor = relay.build_module.create_executor("graph",mod,tvm.cpu(0),target,params).evaluate()
+    coco_eval.evaluate_coco(dataset_val,executor)
  
 
 if __name__ == '__main__':
