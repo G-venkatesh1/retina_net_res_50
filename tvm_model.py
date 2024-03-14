@@ -37,7 +37,7 @@ for index in range(len(dataset_val)):
             c=c+1
             # run network
                 # anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
-            inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
+            inputs = data['img'].permute(2, 0, 1).float().unsqueeze(dim=0)
             inputs=inputs.numpy()
             input_data = tvm.nd.array(inputs.astype("float32")) 
             out = executor(input_data)
