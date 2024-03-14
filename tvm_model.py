@@ -48,15 +48,15 @@ for index in range(len(dataset_val)):
                 # ort_outs = 
                 # ort_outs = model.run(None, ort_inputs)
                 # anchors,classificationn = ort_outs[0], ort_outs[1]
-            classificationn = torch.tensor(classificationn).cuda()
-            anchors = torch.tensor(anchors).cuda()
+            classificationn = torch.tensor(classificationn)
+            anchors = torch.tensor(anchors)
                 # print('after prediction',anchors.shape,classificationn.shape)
             finalResult = [[], [], []]
             finalScores = torch.Tensor([])
             finalAnchorBoxesIndexes = torch.Tensor([]).long()
             finalAnchorBoxesCoordinates = torch.Tensor([])
             for i in range(classificationn.shape[2]):
-                scores = torch.squeeze(classificationn[:, :, i]).cuda()
+                scores = torch.squeeze(classificationn[:, :, i])
                 scores_over_thresh = (scores > 0.05)
                 if scores_over_thresh.sum() == 0:
                     # no boxes to NMS, just continue
