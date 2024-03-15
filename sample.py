@@ -43,18 +43,18 @@ def main(args=None):
     # onnx_32_model = onnx.load(onnx_fp_32_path)
     # onnx_16_model = float16.convert_float_to_float16(onnx_32_model,min_positive_val=1e-7,max_finite_val=1e4)
     # onnx.save(onnx_16_model,onnx_fp_16_path)
-    int8_onnx_path ='/kaggle/working/400_int_8_mm_w8a8.onnx'
-    pre_processed_path ='/kaggle/working/preprocessed_fp_32.onnx'
-    # ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, pre_processed_path)
-    module = quantise.OnnxStaticQuantization()
-    module.fp32_onnx_path =pre_processed_path
-    module.quantization(
-        fp32_onnx_path=pre_processed_path,
-        future_int8_onnx_path=int8_onnx_path,
-        calib_method="MinMax",
-        calibration_loader=dataset_val,
-        sample=400
-    )
+    int8_onnx_path ='/kaggle/working/500_int_8_mm_w8a8.onnx'
+    pre_processed_path ='/kaggle/working/'
+    ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, pre_processed_path)
+    # module = quantise.OnnxStaticQuantization()
+    # module.fp32_onnx_path =pre_processed_path
+    # module.quantization(
+    #     fp32_onnx_path=pre_processed_path,
+    #     future_int8_onnx_path=int8_onnx_path,
+    #     calib_method="MinMax",
+    #     calibration_loader=dataset_val,
+    #     sample=400
+    # )
     
     
     

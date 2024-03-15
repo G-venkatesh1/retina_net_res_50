@@ -32,6 +32,8 @@ class OnnxStaticQuantization:
                 if count == 100: print("100 reached")
                 if count == 200: print('200 reached')
                 if count == 300: print("300 reached")
+                if count == 400: print("400 reached")
+                if count == 500: print("500 reached")
                 count = count + 1
             self.enum_data = iter(calib_list)
         return next(self.enum_data, None)
