@@ -25,26 +25,26 @@ def main(args=None):
     dataset_val = CocoDataset(parser.coco_path, set_name='val2017',
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
 
-    # # Create the model
-    # retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)
+    # Create the model
+    retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)
 
-    # use_gpu = True
+    use_gpu = True
 
-    # if use_gpu:
-    #     if torch.cuda.is_available():
-    #         retinanet = retinanet.cuda()
+    if use_gpu:
+        if torch.cuda.is_available():
+            retinanet = retinanet.cuda()
 
-    # if torch.cuda.is_available():
-    #     retinanet.load_state_dict(torch.load(parser.model_path))
-    #     retinanet = torch.nn.DataParallel(retinanet).cuda()
-    # else:
-    #     retinanet.load_state_dict(torch.load(parser.model_path))
-    #     retinanet = torch.nn.DataParallel(retinanet)
+    if torch.cuda.is_available():
+        retinanet.load_state_dict(torch.load(parser.model_path))
+        retinanet = torch.nn.DataParallel(retinanet).cuda()
+    else:
+        retinanet.load_state_dict(torch.load(parser.model_path))
+        retinanet = torch.nn.DataParallel(retinanet)
 
-    # retinanet.training = False
-    # retinanet.eval()
-    # retinanet.module.freeze_bn()
-    ort_session = onnxruntime.InferenceSession('/kaggle/working/500_int_8_mm_w8a8.onnx')
+    retinanet.training = False
+    retinanet.eval()
+    retinanet.module.freeze_bn()
+    # ort_session = onnxruntime.InferenceSession('/kaggle/working/500_int_8_mm_w8a8.onnx')
     # onnx_model_path = '/kaggle/input/int_8_onnx_model/onnx/retina_net/1/400_int_8_mm_w8a8.onnx'
     # onnx_model = onnx.load(onnx_model_path)
     # input_shape = (1,3,640,640)
@@ -54,7 +54,7 @@ def main(args=None):
     # target = "llvm"
     # with tvm.transform.PassContext(opt_level=3):
     #     executor = relay.build_module.create_executor("graph",mod,tvm.cpu(0),target,params).evaluate()
-    coco_eval.evaluate_coco(dataset_val,ort_session)
+    coco_eval.evaluate_coco(dataset_val,retinanet)
  
 
 if __name__ == '__main__':

@@ -21,18 +21,18 @@ def evaluate_coco(dataset, model, threshold=0.05):
             c=c+1
             # run network
             if torch.cuda.is_available():
-                # anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
-                inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
+                anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
+                # inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
                 # inputs=inputs.numpy()
                 # input_data = tvm.nd.array(inputs.astype("float32")) 
                 # out = model(input_data)
                 # anchors,classificationn=out[0].asnumpy(),out[1].asnumpy()
                 # inputs = inputs.half()
                 # print(inputs.dtype)
-                ort_inputs['input.1'] = inputs.cpu().numpy()
+                # ort_inputs['input.1'] = inputs.cpu().numpy()
                 # ort_outs = 
-                ort_outs = model.run(None, ort_inputs)
-                anchors,classificationn = ort_outs[0], ort_outs[1]
+                # ort_outs = model.run(None, ort_inputs)
+                # anchors,classificationn = ort_outs[0], ort_outs[1]
                 classificationn = torch.tensor(classificationn).cuda()
                 anchors = torch.tensor(anchors).cuda()
                 # print('after prediction',anchors.shape,classificationn.shape)
