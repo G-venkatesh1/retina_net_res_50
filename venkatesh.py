@@ -16,28 +16,28 @@ def main(args=None):
     dataset_val = CocoDataset('/kaggle/input/coco-2017-dataset/coco2017', set_name='val2017',
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
     #load fp32_model
-    # retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)
-    # use_gpu = True
+    retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)
+    use_gpu = True
 
-    # if use_gpu:
-    #     if torch.cuda.is_available():
-    #         retinanet = retinanet.cuda()
+    if use_gpu:
+        if torch.cuda.is_available():
+            retinanet = retinanet.cuda()
 
-    # if torch.cuda.is_available():
-    #     retinanet.load_state_dict(torch.load("/home/ubuntu/workspace/Venkatesh/retina_net_res_50/resnet50-19c8e357.pth"))
-    #     retinanet = torch.nn.DataParallel(retinanet).cuda()
-    # else:
-    #     retinanet.load_state_dict(torch.load("/home/ubuntu/workspace/Venkatesh/retina_net_res_50/resnet50-19c8e357.pth"))
-    #     retinanet = torch.nn.DataParallel(retinanet)
+    if torch.cuda.is_available():
+        retinanet.load_state_dict(torch.load("/kaggle/input/retina_net_resnet-50/other/retina_net_model/1/coco_resnet_50_map_0_335_state_dict.pt"))
+        retinanet = torch.nn.DataParallel(retinanet).cuda()
+    else:
+        retinanet.load_state_dict(torch.load("/kaggle/input/retina_net_resnet-50/other/retina_net_model/1/coco_resnet_50_map_0_335_state_dict.pt"))
+        retinanet = torch.nn.DataParallel(retinanet)
 
-    # retinanet.training = False
-    # retinanet.eval()
-    # retinanet.module.freeze_bn()
-    # method="fp_32_baseline"
-    # pr=32
-    # coco_eval.evaluate_coco(dataset_val,retinanet,method,pr)
-    # #fp32_to_onnx
-    # example_input = torch.randn(1, 3,640,640).cuda()
+    retinanet.training = False
+    retinanet.eval()
+    retinanet.module.freeze_bn()
+    method="fp_32_baseline"
+    pr=32
+    coco_eval.evaluate_coco(dataset_val,retinanet,method,pr)
+    #fp32_to_onnx
+    example_input = torch.randn(1, 3,640,640).cuda()
     # onnx_fp_32_path = "/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_32.onnx"
     # torch.onnx.export(retinanet,example_input,onnx_fp_32_path,opset_version=15)
     # ort_session = onnxruntime.InferenceSession("/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_32.onnx")
