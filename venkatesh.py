@@ -25,10 +25,10 @@ def main(args=None):
 
     if torch.cuda.is_available():
         retinanet.load_state_dict(torch.load("/kaggle/input/retina_net_resnet-50/other/retina_net_model/1/coco_resnet_50_map_0_335_state_dict.pt"))
-        retinanet = torch.nn.DataParallel(retinanet).cuda()
+        # retinanet = torch.nn.DataParallel(retinanet).cuda()
     else:
         retinanet.load_state_dict(torch.load("/kaggle/input/retina_net_resnet-50/other/retina_net_model/1/coco_resnet_50_map_0_335_state_dict.pt"))
-        retinanet = torch.nn.DataParallel(retinanet)
+        # retinanet = torch.nn.DataParallel(retinanet)
 
     retinanet.training = False
     retinanet.eval()
