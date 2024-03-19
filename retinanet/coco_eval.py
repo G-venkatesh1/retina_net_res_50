@@ -17,7 +17,7 @@ def evaluate_coco(dataset, model,method,pr,threshold=0.05):
         for index in range(len(dataset)):
             data = dataset[index]
             scale = data['scale']
-            if(c>5000):break
+            if(c>10):break
             c=c+1
             # run network
             if torch.cuda.is_available():

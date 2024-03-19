@@ -38,11 +38,11 @@ def main(args=None):
     coco_eval.evaluate_coco(dataset_val,retinanet,method,pr)
     #fp32_to_onnx
     example_input = torch.randn(1, 3,640,640).cuda()
-    # onnx_fp_32_path = "/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_32.onnx"
-    # torch.onnx.export(retinanet,example_input,onnx_fp_32_path,opset_version=15)
-    # ort_session = onnxruntime.InferenceSession("/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_32.onnx")
-    # method="onnx"
-    # coco_eval.evaluate_coco(dataset_val,ort_session,method,pr)
+    onnx_fp_32_path = "/kaggle/working/fp_32.onnx"
+    torch.onnx.export(retinanet,example_input,onnx_fp_32_path,opset_version=15)
+    ort_session = onnxruntime.InferenceSession("/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_32.onnx")
+    method="onnx"
+    coco_eval.evaluate_coco(dataset_val,ort_session,method,pr)
     # #fp32_to_fp16_onnx
     # onnx_fp_16_path ="/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_16.onnx"
     # onnx_32_model = onnx.load(onnx_fp_32_path)
