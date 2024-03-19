@@ -43,7 +43,7 @@ def evaluate_coco(dataset, model,method,pr,threshold=0.05):
                     anchors,classificationn = ort_outs[0], ort_outs[1]
                 elif(method=="tvm"):
                     inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
-                    inputs=inputs.numpy()
+                    inputs=inputs.cpu().numpy()
                     input_data = tvm.nd.array(inputs.astype("float32")) 
                     out = model(input_data)
                     anchors,classificationn=out[0].asnumpy(),out[1].asnumpy()
