@@ -52,18 +52,18 @@ def main(args=None):
     # pr=16
     # coco_eval.evaluate_coco(dataset_val,ort_16_session,method,pr)
     # #int8
-    # int8_onnx_path ="/home/ubuntu/workspace/Venkatesh/retina_net_res_50/int_w8a8_mm_500_n.onnx"
-    # pre_processed_path ="/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_32_pre_processed.onnx"
-    # ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, pre_processed_path)
-    # module = quantise.OnnxStaticQuantization()
-    # module.fp32_onnx_path =pre_processed_path
-    # module.quantization(
-    #     fp32_onnx_path=pre_processed_path,
-    #     future_int8_onnx_path=int8_onnx_path,
-    #     calib_method="MinMax",
-    #     calibration_loader=dataset_val,
-    #     sample=500
-    # )
+    int8_onnx_path ="/home/ubuntu/workspace/Venkatesh/retina_net_res_50/int_w8a8_mm_500_n.onnx"
+    pre_processed_path ="/home/ubuntu/workspace/Venkatesh/retina_net_res_50/fp_32_pre_processed.onnx"
+    ort.quantization.shape_inference.quant_pre_process(onnx_fp_32_path, pre_processed_path)
+    module = quantise.OnnxStaticQuantization()
+    module.fp32_onnx_path =pre_processed_path
+    module.quantization(
+        fp32_onnx_path=pre_processed_path,
+        future_int8_onnx_path=int8_onnx_path,
+        calib_method="MinMax",
+        calibration_loader=dataset_val,
+        sample=500
+    )
     # onnx_model_path = '/kaggle/input/int_8_onnx_model/onnx/retina_net/1/400_int_8_mm_w8a8.onnx'
     # onnx_model = onnx.load(onnx_model_path)
     # input_shape = (1,3,640,640)
