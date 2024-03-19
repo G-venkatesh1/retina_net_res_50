@@ -5,10 +5,10 @@ from torchvision.ops import nms
 import tvm
 from tvm import relay
 import onnx
-def evaluate_coco(dataset, model, threshold=0.05):
+def evaluate_coco(dataset, model,method,pr,threshold=0.05):
     
-    # model.eval()
-    ort_inputs = {'input.1': None}
+    if(method=="fp_32_baseline"):model.eval()
+    elif(method=="onnx"):ort_inputs = {'input.1': None}
     with torch.no_grad():
         c=0
         # start collecting results
@@ -21,7 +21,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
             c=c+1
             # run network
             if torch.cuda.is_available():
-                anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
+                
                 # inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
                 # inputs=inputs.numpy()
                 # input_data = tvm.nd.array(inputs.astype("float32")) 
@@ -33,6 +33,21 @@ def evaluate_coco(dataset, model, threshold=0.05):
                 # ort_outs = 
                 # ort_outs = model.run(None, ort_inputs)
                 # anchors,classificationn = ort_outs[0], ort_outs[1]
+                if(method=="fp_32_baseline"):
+                    anchors,classificationn = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
+                elif(method=="onnx"):
+                    inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
+                    if(pr==16): inputs = inputs.half()
+                    ort_inputs['input.1'] = inputs.cpu().numpy()
+                    ort_outs = model.run(None, ort_inputs)
+                    anchors,classificationn = ort_outs[0], ort_outs[1]
+                elif(method=="tvm"):
+                    inputs = data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0)
+                    inputs=inputs.numpy()
+                    input_data = tvm.nd.array(inputs.astype("float32")) 
+                    out = model(input_data)
+                    anchors,classificationn=out[0].asnumpy(),out[1].asnumpy()
+                
                 classificationn = torch.tensor(classificationn).cuda()
                 anchors = torch.tensor(anchors).cuda()
                 # print('after prediction',anchors.shape,classificationn.shape)
