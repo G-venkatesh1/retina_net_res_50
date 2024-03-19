@@ -13,7 +13,7 @@ import numpy as np
 from onnxconverter_common import float16
 def main(args=None):
     #load dataset
-    dataset_val = CocoDataset("/home/ubuntu/Datasets/COCO/coco/", set_name='val2017',
+    dataset_val = CocoDataset('/kaggle/input/coco-2017-dataset/coco2017', set_name='val2017',
                               transform=transforms.Compose([Normalizer(), Resizer_const()]))
     #load fp32_model
     # retinanet = model.resnet50(num_classes=dataset_val.num_classes(), pretrained=True)
