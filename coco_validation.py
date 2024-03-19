@@ -39,7 +39,7 @@ def func(model_in,method,pr):
 
         model_in.training = False
         model_in.eval()
-        model_in.module.freeze_bn()
+        model_in.freeze_bn()
         coco_eval.evaluate_coco(dataset_val,retinanet,method,pr)
     elif(method=="onnx"):
         

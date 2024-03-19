@@ -32,7 +32,7 @@ def main(args=None):
 
     retinanet.training = False
     retinanet.eval()
-    retinanet.module.freeze_bn()
+    retinanet.freeze_bn()
     method="fp_32_baseline"
     pr=32
     coco_eval.evaluate_coco(dataset_val,retinanet,method,pr)
